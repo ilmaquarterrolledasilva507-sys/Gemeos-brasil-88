@@ -1,1 +1,65 @@
 
+require('dotenv').config();
+const express = require('express');
+const fetch = require('node-fetch');
+const app = express();
+app.use(express.json());
+
+// CONFIGURAÇÕES
+const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
+const ASAAS_URL = "https://api.asaas.com/v3";
+const SEU_WHATSAPP = "5582991859592"; // Seu número com +55 + DDD + números
+const PORTA = process.env.PORT || 3000;
+
+// WEBHOOK: RECEBE AVISO DO ASAAS QUANDO PAGAMENTO É CONFIRMADO
+app.post('/webhook-asaas', async (req, res) => {
+    try {
+        const evento = req.body;
+
+        // SÓ TRATA PAGAMENTOS CONFIRMADOS
+        if (evento.event === "PAYMENT_CONFIRMED") {
+            const pagamento = evento.payment;
+            const dadosExtras = pagamento.externalReference? JSON.parse(pagamento.externalReference) : {};
+
+            // DADOS COMPLETOS PARA A NOTIFICAÇÃO
+            const dados = {
+                nome: dadosExtras.nome || "Cliente não identificado",
+                cpf: dadosExtras.cpf || "---",
+                telefone: dadosExtras.telefone || "---",
+                numeros: dadosExtras.numeros || "---",
+                valor: pagamento.value.toFixed(2).replace(".", ","),
+                data: new Date().toLocaleDateString("pt-BR")
+            };
+
+            // MENSAGEM QUE CHEGA NO SEU WHATSAPP
+            const mensagem = `✅ PAGAMENTO CONFIRMADO — RIFA ED. 607
+━━━━━━━━━━━━━━
+📅 Data: ${dados.data}
+👤 Nome: ${dados.nome}
+📄 CPF: ${dados.cpf}
+📱 Cliente: ${dados.telefone}
+💰 Valor: R$ ${dados.valor}
+🎫 Números: ${dados.numeros}
+━━━━━━━━━━━━━━
+💡 Envie a confirmação para o cliente!`;
+
+            // CODIFICA A MENSAGEM PARA O LINK DO WHATSAPP
+            const mensagemCodificada = encodeURIComponent(mensagem);
+            const linkZap = `https://wa.me/${SEU_WHATSAPP}?text=${mensagemCodificada}`;
+
+            // MOSTRA O LINK NO LOG DO VERCEL (pronto para abrir e enviar)
+            console.log("\n📩 NOTIFICAÇÃO PRONTA: " + linkZap + "\n");
+        }
+
+        res.status(200).send("OK");
+    } catch (erro) {
+        console.error("❌ Erro no webhook:", erro);
+        res.status(500).send("Erro interno");
+    }
+});
+
+// INICIA O SERVIDOR
+app.listen(PORTA, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORTA}`);
+    console.log(`🔗 Link do Webhook: https://SEU-LINK-VERCEL.vercel.app/webhook-asaas`);
+});
